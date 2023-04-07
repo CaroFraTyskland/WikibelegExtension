@@ -1,0 +1,11 @@
+{
+  "name": "Wikipedia-Belege",
+  "action": {},
+  "manifest_version": 3,
+  "version": "0.1",
+  "description": "Erstellt für ausgewählte Websites einen für die Wikipedia konformen Beleg",
+  "permissions": ["activeTab", "scripting"],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
