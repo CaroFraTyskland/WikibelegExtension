@@ -5,7 +5,7 @@ chrome.action.onClicked.addListener((tab) => {
   let day= String(date.getDate()).padStart(2, '0');
   let dateString =  `${year}-${month}-${day}`;
 
-  let url = tab.url;
+  let url = decodeURI(tab.url);
 
   if (url.includes('kirkesok.no')) {
     chrome.scripting.executeScript({
@@ -96,6 +96,111 @@ chrome.action.onClicked.addListener((tab) => {
         },
         args: [url, dateString]
       });  
+  } else if (url.includes('regjeringen.no/en/the-government/previous-governments/regjeringer-siden-1814/historisk-regjeringspolitiker')) {
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: (url, dateString) => {
+        title = document.getElementsByClassName('article-header')[0].innerText
+
+        ref = "<ref>{{Internetquelle |url=" + url + " |titel=" + title + " |abruf=" + dateString + " |werk=regjeringen.no |sprache=en}}</ref>";    
+        alert(ref); 
+      },
+      args: [url, dateString]
+    });
+  } else if (url.includes('regjeringen.no/no/om-regjeringa/tidligere-regjeringer-og-historie/sok-i-regjeringer-siden-1814/regjeringspolitiker')) {
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: (url, dateString) => {
+        title = document.getElementsByClassName('article-header')[0].innerText
+
+        ref = "<ref>{{Internetquelle |url=" + url + " |titel=" + title + " |abruf=" + dateString + " |werk=regjeringen.no |sprache=no}}</ref>";    
+        alert(ref); 
+      },
+      args: [url, dateString]
+    });
+  } else if (url.includes('https://spellemann.no/arkiv')) {
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: (url, dateString) => {
+        ref = "<ref>{{Internetquelle |url=" + url + " |titel=Arkiv |abruf=" + dateString + " |werk=spellemann.no |sprache=no}}</ref>";    
+        alert(ref); 
+      },
+      args: [url, dateString]
+    });
+  }else if (url.includes('p3.no')) {
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: (url, dateString) => {
+        title = document.getElementsByClassName("entry-title")[0].innerText
+        authors = document.getElementsByClassName("fn author__name")
+        
+        day = document.getElementsByClassName("article-dateline__full")[0].innerText.substring(0,2)
+        month = document.getElementsByClassName("article-dateline__full")[0].innerText.substring(3,5)
+        year = "20" + document.getElementsByClassName("article-dateline__full")[0].innerText.substring(6,8)
+        date = year + "-" + month + "-" + day
+
+        text = ""
+        for (let index = 0; index < authors.length; index++) {
+          text = text + ", " + authors[index].innerText
+        }
+
+        authorText = text.substring(2)
+
+        ref = "<ref>{{Internetquelle |url=" + url + " |titel=" + title + " |abruf=" + dateString + " |autor=" + authorText + " |werk=p3.no |datum=" + date + " |sprache=no}}</ref>";    
+        alert(ref); 
+      },
+      args: [url, dateString]
+    });
+  } else if (url.includes('nrk.no/nyheter')) {
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: (url, dateString) => {
+        title = document.getElementsByClassName("bulletin-title")[0].innerText.replaceAll("­", "")
+        
+        date = document.querySelector('meta[name="dc.date.issued"]').content
+
+        ref = "<ref>{{Internetquelle |url=" + url + " |titel=" + title + " |abruf=" + dateString + " |werk=NRK |datum=" + date + " |sprache=no}}</ref>";    
+        alert(ref); 
+      },
+      args: [url, dateString]
+    });
+  } else if (url.includes('nrk.no')) {
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: (url, dateString) => {
+        title = document.getElementsByClassName("title title-large article-title")[0].innerText.replaceAll("­", "")
+        authors = document.getElementsByClassName("author widget brief")
+        
+        date = document.querySelector('meta[name="dc.date.issued"]').content
+
+        text = ""
+        for (let index = 0; index < authors.length; index++) {
+
+          role = authors[index].getElementsByClassName("author__role")[0].innerText
+
+          if (role == "Journalist" || role == "Kommunikasjonsansvarlig") {
+            text = text + ", " + authors[index].getElementsByClassName("author__name")[0].innerText
+          }
+        }
+
+        authorText = text.substring(2)
+
+        ref = "<ref>{{Internetquelle |autor=" + authorText + " |url=" + url + " |titel=" + title + " |abruf=" + dateString + " |werk=NRK |datum=" + date + " |sprache=no}}</ref>";    
+        alert(ref); 
+      },
+      args: [url, dateString]
+    });
+  } else if (url.includes('oslobyleksikon.no')) {
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: (url, dateString) => {
+        title = document.getElementById("firstHeading").innerText
+
+        ref = "<ref>{{Internetquelle |url=" + url + " |titel=" + title + " |abruf=" + dateString + " |werk=Oslo byleksikon |sprache=no}}</ref>";    
+        alert(ref); 
+      },
+      args: [url, dateString]
+    });
   }
 
 });
