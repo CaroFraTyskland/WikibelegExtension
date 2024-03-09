@@ -201,6 +201,17 @@ chrome.action.onClicked.addListener((tab) => {
       },
       args: [url, dateString]
     });
+  } else if (url.includes('norskstadnamnleksikon.no')) {
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: (url, dateString) => {
+        title = document.getElementById("SheetContentPlaceHolder_Soeg1_RepeaterSearch_TextBoxText_0").value
+
+        ref = "<ref>{{Internetquelle |url= |titel=" + title + " |abruf=" + dateString + " |werk=Norsk stadnamnleksikon |sprache=no}}</ref>";    
+        alert(ref); 
+      },
+      args: [url, dateString]
+    });
   }
 
 });
