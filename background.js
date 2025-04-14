@@ -86,6 +86,17 @@ chrome.action.onClicked.addListener((tab) => {
       },
       args: [url, dateString]
     });
+  } else if (url.includes('stadnamn.kartverket.no')) {
+    chrome.scripting.executeScript({
+      target: {tabId: tab.id },
+      function: (url, dateString) => {
+         title = document.getElementsByClassName("h2-overskrift")[0].innerText.replace(" (Norsk - Hovednavn)", "")
+         ref = "<ref>{{Internetquelle |url=" + url + " |titel=" + title + " |abruf= " + dateString + " |hrsg=Kartverket |sprache=no}}</ref>"
+
+         alert(ref); 
+      },
+      args: [url, dateString]
+    });
   } else if (url == "https://www.regjeringen.no/no/tema/kommuner-og-regioner/kommunestruktur/nye-kommune-og-fylkesnummer-fra-1.-januar-2024/id2924701/") {
       chrome.scripting.executeScript({
         target: {tabId: tab.id },
@@ -208,6 +219,51 @@ chrome.action.onClicked.addListener((tab) => {
         title = document.getElementById("SheetContentPlaceHolder_Soeg1_RepeaterSearch_TextBoxText_0").value
 
         ref = "<ref>{{Internetquelle |url= |titel=" + title + " |abruf=" + dateString + " |werk=Norsk stadnamnleksikon |sprache=no}}</ref>";    
+        alert(ref); 
+      },
+      args: [url, dateString]
+    });
+  } else if (url.includes('sprakradet.no/stedsnavn-og-navn-pa-statsorgan/navnelister-norsk-skrivemate/innbyggjarnamn')) {
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: (url, dateString) => {
+        ref = "<ref>{{Internetquelle |url=" + url + " |titel=Innbyggjarnamn |hrsg=Språkrådet |abruf=" + dateString + " |sprache=no}}</ref>";
+        alert(ref); 
+      },
+      args: [url, dateString]
+    });
+  } else if (url.includes('statbank/table/09280')) {
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: (url, dateString) => {
+        ref = "<ref>{{Internetquelle |url=https://www.ssb.no/en/statbank/table/09280 |titel=09280: Area of land and fresh water, by municipality (km²) (M) 2007 - 2024 |werk=ssb.no |hrsg=Statistisk sentralbyrå |sprache=en |abruf=" + dateString + "}}</ref>";
+        alert(ref); 
+      },
+      args: [url, dateString]
+    });
+  } else if (url.includes('https://www.ssb.no/statbank/sq/10085057')) {
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: (url, dateString) => {
+        ref = "<ref>{{Internetquelle |url=https://www.ssb.no/en/statbank/table/09280 |titel=09280: Area of land and fresh water, by municipality (km²) (M) 2007 - 2024 |werk=ssb.no |hrsg=Statistisk sentralbyrå |sprache=en |abruf=" + dateString + "}}</ref>";
+        alert(ref); 
+      },
+      args: [url, dateString]
+    });
+  } else if (url.includes('table/11342')) {
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: (url, dateString) => {
+        ref = "<ref>{{Internetquelle |url=https://www.ssb.no/en/statbank/table/11342 |titel=11342: Population and area (M) 2007 - 2024 |werk=ssb.no |hrsg=Statistisk sentralbyrå |sprache=en |abruf=" + dateString + "}}</ref>";
+        alert(ref); 
+      },
+      args: [url, dateString]
+    });
+  }  else if (url.includes('rapp_199913.pdf')) {
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: (url, dateString) => {
+        ref = "<ref>{{Internetquelle |autor=Dag Juvkam |url=https://www.ssb.no/a/histstat/rapp/rapp_199913.pdf |titel=Historisk oversikt over endringer i kommune- og fylkesinndelingen |werk=Statistisk sentralbyrå |datum=1999 |format=PDF |sprache=no |abruf=" + dateString + "}}</ref>"
         alert(ref); 
       },
       args: [url, dateString]
